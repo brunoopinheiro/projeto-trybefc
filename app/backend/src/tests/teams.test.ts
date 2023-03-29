@@ -62,5 +62,5 @@ describe('Route: GET /teams/:id with invalid id', () => {
     chaiHttpResponse = await chai.request(app).get('/teams/999');
 
     expect(chaiHttpResponse.status).to.be.equal(404);
-  })
+  });
 })
