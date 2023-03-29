@@ -1,8 +1,9 @@
 import { StatusCodes } from '../utils/statusCodes';
 import ITeam from './ITeam';
+import IUser from './IUser';
 
 interface IServiceResponse {
-  message: string | ITeam;
+  message: string | ITeam | IUser;
   type: StatusCodes | null;
 }
 
