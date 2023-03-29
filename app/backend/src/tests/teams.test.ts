@@ -27,3 +27,40 @@ describe('Route: GET /teams', () => {
     expect(chaiHttpResponse.status).to.be.equal(200);
   });
 });
+
+describe('Route: GET /teams/:id', () => {
+  let chaiHttpResponse: Response;
+
+  before(async () => {
+    sinon.stub(TeamsModel, 'findByPk').resolves(teamsReturnMock[0] as TeamsModel);
+  });
+
+  after(() => {
+    (TeamsModel.findByPk as sinon.SinonStub).restore();
+  });
+
+  it('Should return a single team by its id', async () => {
+    chaiHttpResponse = await chai.request(app).get('/teams/1');
+
+    expect(chaiHttpResponse.body).to.be.deep.equal(teamsReturnMock[0]);
+    expect(chaiHttpResponse.status).to.be.equal(200);
+  });
+});
+
+describe('Route: GET /teams/:id with invalid id', () => {
+  let chaiHttpResponse: Response;
+
+  before(async () => {
+    sinon.stub(TeamsModel, 'findByPk').resolves(null);
+  });
+
+  after(() => {
+    (TeamsModel.findByPk as sinon.SinonStub).restore();
+  });
+
+  it('Should return a 404 status', async () => {
+    chaiHttpResponse = await chai.request(app).get('/teams/999');
+
+    expect(chaiHttpResponse.status).to.be.equal(404);
+  })
+})

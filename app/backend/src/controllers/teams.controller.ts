@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import statusCodes, { mapError } from '../utils/statusCodes';
 import TeamsService from '../services/teams.service';
 
 export default class TeamsController {
@@ -11,6 +12,15 @@ export default class TeamsController {
   public getAll = async (_req: Request, res: Response) => {
     const teams = await this._teamsService.getAll();
 
-    return res.status(200).json(teams);
+    return res.status(statusCodes.ok).json(teams);
+  };
+
+  public getById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { type, message } = await this._teamsService.getById(Number(id));
+
+    if (type) return res.status(mapError(type)).json({ message });
+
+    return res.status(statusCodes.ok).json(message);
   };
 }
