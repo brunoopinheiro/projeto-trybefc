@@ -19,4 +19,10 @@ export default class UsersControler {
 
     return res.status(statusCodes.ok).json({ token: response.message });
   };
+
+  public loginRole = async (req: Request, res: Response) => {
+    const { user } = req.body;
+
+    return res.status(statusCodes.ok).json({ role: user.role });
+  };
 }

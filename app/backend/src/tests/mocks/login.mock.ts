@@ -13,6 +13,9 @@ const invalidLogin = {
 const returnedUser = {
   email: 'admin@admin.com',
   password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
+  role: 'admin',
 }
 
-export { validLogin, invalidLogin, returnedUser };
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInBhc3N3b3JkIjoic2VjcmV0X2FkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjgwMTIxNDkzLCJleHAiOjE2ODAyMDc4OTN9.MqJG_Y14dEeTbiyXz3FG0kqZBZ08YGX9-bdpXzsMrws';
+
+export { validLogin, invalidLogin, returnedUser, token };

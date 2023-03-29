@@ -4,8 +4,9 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import UserModel from '../database/models/UserModel';
+import * as jwt from 'jsonwebtoken';
 import { Response } from 'superagent';
-import { validLogin, invalidLogin, returnedUser } from './mocks/login.mock';
+import { validLogin, invalidLogin, returnedUser, token } from './mocks/login.mock';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -77,3 +78,41 @@ describe('Route POST /login', () => {
     });
   });
 });
+
+describe('Route GET /login/role - Invalid Token', () => {
+  let chaiHttpResponse: Response;
+  // Deve retornar 401 "Token not found" caso requisicao sem token
+  it('Should return status 401 and message "Token not found" when requesting without a token', async () => {
+    chaiHttpResponse = await chai.request(app).get('/login/role');
+
+    expect(chaiHttpResponse).to.have.status(401);
+    expect(chaiHttpResponse.body.message).to.be.equal('Token not found');
+  });
+
+  // Deve retornar 401 "Token must be a valid token" com token invalido
+  it('Should return status 401 and message "Token must be a valid token"', async () => {
+    chaiHttpResponse = await chai.request(app).get('/login/role').set('Authorization', 'asd');
+
+    expect(chaiHttpResponse).to.have.status(401);
+    expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
+  });
+});
+
+describe('Route GET /login/role - Valid Token', () => {
+  before(async () => {
+    sinon.stub(jwt, 'verify').resolves(returnedUser);
+  });
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+  });
+
+  let chaiHttpResponse: Response;
+  // Deve retornar 200 e a "role" do usuario atraves do token valido
+  it('Should return status 200 and the user role with a valid token', async () => {
+    chaiHttpResponse = await chai.request(app).get('/login/role')
+      .set('Authorization', token);
+
+    expect(chaiHttpResponse).to.have.status(200);
+    expect(chaiHttpResponse.body).to.be.deep.equal({ role: 'admin' });
+  });
+})

@@ -31,7 +31,7 @@ export default class UsersService {
     const validPWord = await bcrypt.compare(login.password, user.password);
 
     if (validPWord) {
-      const token = this.generateToken(login);
+      const token = this.generateToken({ ...login, role: user.role });
       return { type: null, message: token };
     }
     return { message: 'Invalid email or password', type: 'unauthorized' };
