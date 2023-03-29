@@ -26,7 +26,7 @@ export default class UsersService {
   }
 
   public async login(login: ILogin): Promise<IServiceResponse> {
-    const user = await this.userModel.findOne({ where: { username: login.username } });
+    const user = await this.userModel.findOne({ where: { email: login.email } });
     if (!user) return { message: 'Invalid email or password', type: 'unauthorized' };
     const validPWord = await bcrypt.compare(login.password, user.password);
 

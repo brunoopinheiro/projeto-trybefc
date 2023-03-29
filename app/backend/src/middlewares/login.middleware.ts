@@ -7,9 +7,15 @@ export default function loginBodyMiddleware(
   next: NextFunction,
 ) {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(statusCodes.badRequest).send({ message: 'All fields must be filled' });
+    }
+
+    // validate email
+    const emailReg = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
+    if (!emailReg.test(email) || password.length < 6) {
+      return res.status(statusCodes.unauthorized).send({ message: 'Invalid email or password' });
     }
 
     next();
