@@ -48,4 +48,13 @@ export default class MatchesService {
 
     return matches;
   }
+
+  public async endMatch(matchId: number): Promise<number> {
+    const [affectedRows] = await this._matchModel.update(
+      { inProgress: false },
+      { where: { id: matchId } },
+    );
+
+    return affectedRows;
+  }
 }

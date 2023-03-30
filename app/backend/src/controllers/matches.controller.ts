@@ -30,4 +30,15 @@ export default class MatchesController {
       return res.sendStatus(statusCodes.internalServerError);
     }
   };
+
+  public endMatch = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await this._matchesService.endMatch(Number(id));
+
+      return res.status(statusCodes.ok).send({ message: 'Finished' });
+    } catch (error) {
+      return res.sendStatus(statusCodes.internalServerError);
+    }
+  };
 }
