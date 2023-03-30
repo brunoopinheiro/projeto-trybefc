@@ -88,5 +88,10 @@ const queryTrueMock = [
   },
 ];
 
+const updateMock = {
+  homeTeamGoals: 3,
+  awayTeamGoals: 1,
+};
+
 export default matchesMock;
-export { queryTrueMock };
+export { queryTrueMock, updateMock };

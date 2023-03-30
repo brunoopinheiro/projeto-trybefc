@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import MatchModel from '../database/models/MatchModel';
 import { Response } from 'superagent';
-import matchesMock, { queryTrueMock } from './mocks/matches.mock';
+import matchesMock, { queryTrueMock, updateMock } from './mocks/matches.mock';
 import * as jwt from 'jsonwebtoken';
 import { returnedUser, token } from './mocks/login.mock';
 
@@ -95,6 +95,31 @@ describe('Tests: Matches routes', () => {
 
       expect(chaiHttpResponse).to.have.status(200);
       expect(chaiHttpResponse.body.message).to.be.equal('Finished');
+    });
+  });
+
+  describe('Route: PATCH /matches/:id', () => {
+    let chaiHttpResponse: Response;
+
+    before(async () => {
+      sinon.stub(jwt, 'verify').resolves(returnedUser);
+      sinon.stub(MatchModel, 'update').resolves([1]);
+    });
+
+    after(() => {
+      (jwt.verify as sinon.SinonStub).restore();
+      (MatchModel.update as sinon.SinonStub).restore();
+    });
+
+    it('Should return status 200 and a message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matches/41')
+        .set('Authorization', token)
+        .send(updateMock);
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body.message).to.be.equal('Updated');
     });
   });
 });

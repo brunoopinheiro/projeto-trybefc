@@ -41,4 +41,17 @@ export default class MatchesController {
       return res.sendStatus(statusCodes.internalServerError);
     }
   };
+
+  public updateMatch = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { body } = req;
+
+      await this._matchesService.updateMatch(Number(id), body);
+
+      return res.status(statusCodes.ok).send({ message: 'Updated' });
+    } catch (error) {
+      return res.sendStatus(statusCodes.internalServerError);
+    }
+  };
 }
