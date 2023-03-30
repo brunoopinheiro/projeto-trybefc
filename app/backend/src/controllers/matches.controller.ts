@@ -9,9 +9,25 @@ export default class MatchesController {
     this._matchesService = service;
   }
 
-  public getAll = async (_req: Request, res: Response) => {
-    const matches = await this._matchesService.getAll();
+  public getAll = async (req: Request, res: Response) => {
+    try {
+      let matches;
 
-    return res.status(statusCodes.ok).json(matches);
+      const { inProgress } = req.query;
+
+      if (!inProgress || inProgress === undefined) {
+        matches = await this._matchesService.getAll();
+        return res.status(statusCodes.ok).json(matches);
+      }
+
+      if (inProgress === 'true' || inProgress === 'false') {
+        const q = inProgress === 'true';
+        matches = await this._matchesService.getAllFiltered(q);
+        return res.status(statusCodes.ok).json(matches);
+      }
+      return res.sendStatus(statusCodes.badRequest);
+    } catch (error) {
+      return res.sendStatus(statusCodes.internalServerError);
+    }
   };
 }

@@ -28,4 +28,24 @@ export default class MatchesService {
     });
     return matches;
   }
+
+  public async getAllFiltered(query: boolean): Promise<IMatch[]> {
+    const matches = await this._matchModel.findAll({
+      where: { inProgress: query },
+      include: [
+        {
+          model: TeamsModel,
+          as: 'homeTeam',
+          attributes: ['teamName'],
+        },
+        {
+          model: TeamsModel,
+          as: 'awayTeam',
+          attributes: ['teamName'],
+        },
+      ],
+    });
+
+    return matches;
+  }
 }
