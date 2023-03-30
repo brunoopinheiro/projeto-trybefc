@@ -7,6 +7,11 @@ import UserModel from '../database/models/UserModel';
 // import IUser from '../interfaces/IUser';
 import ILogin from '../interfaces/ILogin';
 
+type Payload = {
+  email: string;
+  role: string;
+};
+
 export default class UsersService {
   private userModel: ModelStatic<UserModel>;
   private _jwtConfig: SignOptions;
@@ -21,7 +26,7 @@ export default class UsersService {
     };
   }
 
-  private generateToken(payload: ILogin): string {
+  private generateToken(payload: Payload): string {
     return jwt.sign(payload, this._jwtSecret, this._jwtConfig);
   }
 
@@ -31,7 +36,7 @@ export default class UsersService {
     const validPWord = await bcrypt.compare(login.password, user.password);
 
     if (validPWord) {
-      const token = this.generateToken({ ...login, role: user.role });
+      const token = this.generateToken({ email: login.email, role: user.role });
       return { type: null, message: token };
     }
     return { message: 'Invalid email or password', type: 'unauthorized' };
