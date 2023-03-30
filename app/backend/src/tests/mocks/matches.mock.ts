@@ -93,5 +93,25 @@ const updateMock = {
   awayTeamGoals: 1,
 };
 
+const newMatchBody = {
+  homeTeamId: 16,
+  awayTeamId: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+}
+
+const invalidMatchBody = {
+  homeTeamId: 8,
+  awayTeamId: 8,
+  homeTeamGoals: 0,
+  awayTeamGoals: 0,
+}
+
+const newMatch = {
+  id: 50,
+  ...newMatchBody,
+  inProgress: true,
+}
+
 export default matchesMock;
-export { queryTrueMock, updateMock };
+export { queryTrueMock, updateMock, newMatch, newMatchBody, invalidMatchBody };

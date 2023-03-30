@@ -54,4 +54,15 @@ export default class MatchesController {
       return res.sendStatus(statusCodes.internalServerError);
     }
   };
+
+  public createMatch = async (req: Request, res: Response) => {
+    try {
+      const { body } = req;
+      const newMatch = await this._matchesService.createMatch(body);
+
+      return res.status(statusCodes.created).json(newMatch);
+    } catch (error) {
+      return res.sendStatus(statusCodes.internalServerError);
+    }
+  };
 }

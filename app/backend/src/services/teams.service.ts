@@ -22,4 +22,10 @@ export default class TeamsService {
     }
     return { message: team, type: null };
   }
+
+  public static async verifyById(id: number): Promise<boolean> {
+    const team = await TeamsModel.findByPk(id);
+    if (team) return true;
+    return false;
+  }
 }

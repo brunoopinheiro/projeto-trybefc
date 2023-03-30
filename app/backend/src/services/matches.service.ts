@@ -2,7 +2,7 @@ import { ModelStatic } from 'sequelize';
 import TeamsModel from '../database/models/TeamModel';
 // import IServiceResponse from '../interfaces/IServiceResponse';
 import MatchModel from '../database/models/MatchModel';
-import IMatch, { IMatchUpdate } from '../interfaces/IMatch';
+import IMatch, { IMatchUpdate, INewMatch } from '../interfaces/IMatch';
 
 export default class MatchesService {
   private _matchModel: ModelStatic<MatchModel>;
@@ -66,5 +66,14 @@ export default class MatchesService {
     );
 
     return affectedRows;
+  }
+
+  public async createMatch(matchInfo: INewMatch): Promise<IMatch> {
+    const match = await this._matchModel.create({
+      ...matchInfo,
+      inProgress: true,
+    });
+
+    return match;
   }
 }

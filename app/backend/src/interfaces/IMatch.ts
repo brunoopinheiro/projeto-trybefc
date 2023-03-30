@@ -12,5 +12,12 @@ interface IMatchUpdate {
   awayTeamGoals: number,
 }
 
+interface INewMatch {
+  homeTeamId: number,
+  awayTeamId: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
+
 export default IMatch;
-export { IMatchUpdate };
+export { IMatchUpdate, INewMatch };
