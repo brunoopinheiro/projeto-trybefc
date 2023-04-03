@@ -1,3 +1,4 @@
+import { ITeamResult } from '../../interfaces/ITeam';
 import { totalPoints, teamEfficiency } from '../../utils/soccerChampionshipFunctions';
 import IMatch from '../../interfaces/IMatch';
 import MatchModel from './MatchModel';
@@ -24,7 +25,26 @@ class TeamResult {
           { homeTeamId: id },
           { awayTeamId: id },
         ],
+        inProgress: false,
       },
+    });
+
+    return matches;
+  }
+
+  private async getHomeMatches(): Promise<IMatch[]> {
+    const id = this._teamId;
+    const matches = await MatchModel.findAll({
+      where: { inProgress: false, homeTeamId: id },
+    });
+
+    return matches;
+  }
+
+  private async getAwayMatches(): Promise<IMatch[]> {
+    const id = this._teamId;
+    const matches = await MatchModel.findAll({
+      where: { inProgress: false, awayTeamId: id },
     });
 
     return matches;
@@ -111,9 +131,8 @@ class TeamResult {
     return goalsOwn;
   }
 
-  public async getTeamObject() {
+  private async getTeamObject(games: IMatch[]): Promise<ITeamResult> {
     const name = await this.getTeamName();
-    const games = await this.getTeamMatches();
     const victories = this.getTotalVictories(games);
     const draws = this.getTotalDraws(games);
     const [goalsFavor, goalsOwn] = [this.getGoalsFavor(games), this.getGoalsOwn(games)];
@@ -131,6 +150,27 @@ class TeamResult {
       goalsBalance: goalsFavor - goalsOwn,
       efficiency: teamEfficiency(points, games.length),
     };
+  }
+
+  public async getHomeTeamObject(): Promise<ITeamResult> {
+    const games = await this.getHomeMatches();
+    const teamObj = await this.getTeamObject(games);
+
+    return teamObj;
+  }
+
+  public async getAwayTeamObject(): Promise<ITeamResult> {
+    const games = await this.getAwayMatches();
+    const teamObj = await this.getTeamObject(games);
+
+    return teamObj;
+  }
+
+  public async getFullTeamObject(): Promise<ITeamResult> {
+    const games = await this.getTeamMatches();
+    const teamObj = await this.getTeamObject(games);
+
+    return teamObj;
   }
 }
 
