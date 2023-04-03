@@ -17,4 +17,9 @@ export default class LeaderboardService {
 
     return leaderboard;
   }
+
+  public async getAwayLeaderboard(): Promise<ITeamResult[]> {
+    const leaderboard = await this._leaderboardModel.getAwayLeaderboard();
+    return leaderboard;
+  }
 }

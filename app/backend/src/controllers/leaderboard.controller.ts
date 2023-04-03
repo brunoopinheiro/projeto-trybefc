@@ -18,4 +18,14 @@ export default class LeaderboardController {
       return res.sendStatus(statusCodes.internalServerError);
     }
   };
+
+  public getAwayLeaderboard = async (_req: Request, res: Response) => {
+    try {
+      const leaderboard = await this._leaderboardService.getAwayLeaderboard();
+
+      return res.status(statusCodes.ok).json(leaderboard);
+    } catch (err) {
+      return res.sendStatus(statusCodes.internalServerError);
+    }
+  };
 }

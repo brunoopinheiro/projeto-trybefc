@@ -30,6 +30,27 @@ class Leaderboard {
     return teamsArr;
   }
 
+  public async getAwayLeaderboard() {
+    const teams = await this._teamsModel.findAll();
+    const teamsArr: ITeamResult[] = [];
+    const promises = teams.map(async (team) => {
+      const teamRes = new TeamResult(team.id);
+      const teamObj = await teamRes.getAwayTeamObject();
+      return teamObj;
+    });
+    const result = await Promise.all(promises).then((teamsObjArr) => {
+      teamsArr.push(...teamsObjArr);
+      return teamsObjArr;
+    }).catch((error) => console.error(error));
+
+    if (result) {
+      const leaderboard = Leaderboard.orderLeaderboard(result);
+      return leaderboard;
+    }
+
+    return teamsArr;
+  }
+
   static orderLeaderboard(teams: ITeamResult[]): ITeamResult[] {
     const ordered = teams.sort((a, b) =>
       b.totalPoints - a.totalPoints
