@@ -13,7 +13,7 @@ interface ITeamResult {
   goalsFavor: number,
   goalsOwn: number,
   goalsBalance: number,
-  efficiency: number,
+  efficiency: string,
 }
 
 export default ITeam;

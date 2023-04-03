@@ -13,14 +13,21 @@ class Leaderboard {
   public async getHomeLeaderboard() {
     const teams = await this._teamsModel.findAll();
     const teamsArr: ITeamResult[] = [];
-    teams.forEach(async (team) => {
+    const promises = teams.map(async (team) => {
       const teamRes = new TeamResult(team.id);
       const teamObj = await teamRes.getHomeTeamObject();
-      teamsArr.push(teamObj);
+      return teamObj;
     });
+    const result = await Promise.all(promises).then((teamsObjArr) => {
+      teamsArr.push(...teamsObjArr);
+      return teamsObjArr;
+    }).catch((error) => console.error(error));
 
-    const leaderboard = Leaderboard.orderLeaderboard(teamsArr);
-    return leaderboard;
+    if (result) {
+      const leaderboard = Leaderboard.orderLeaderboard(result);
+      return leaderboard;
+    }
+    return teamsArr;
   }
 
   static orderLeaderboard(teams: ITeamResult[]): ITeamResult[] {
