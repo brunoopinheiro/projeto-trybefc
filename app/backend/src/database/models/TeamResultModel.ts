@@ -17,20 +17,20 @@ class TeamResult {
     return 'unknow';
   }
 
-  private async getTeamMatches(): Promise<IMatch[]> {
-    const id = this._teamId;
-    const matches = await MatchModel.findAll({
-      where: {
-        $or: [
-          { homeTeamId: id },
-          { awayTeamId: id },
-        ],
-        inProgress: false,
-      },
-    });
+  // private async getTeamMatches(): Promise<IMatch[]> {
+  //   const id = this._teamId;
+  //   const matches = await MatchModel.findAll({
+  //     where: {
+  //       $or: [
+  //         { homeTeamId: id },
+  //         { awayTeamId: id },
+  //       ],
+  //       inProgress: false,
+  //     },
+  //   });
 
-    return matches;
-  }
+  //   return matches;
+  // }
 
   private async getHomeMatches(): Promise<IMatch[]> {
     const id = this._teamId;
@@ -167,7 +167,9 @@ class TeamResult {
   }
 
   public async getFullTeamObject(): Promise<ITeamResult> {
-    const games = await this.getTeamMatches();
+    const homeGames = await this.getHomeMatches();
+    const awayGames = await this.getAwayMatches();
+    const games = [...homeGames, ...awayGames];
     const teamObj = await this.getTeamObject(games);
 
     return teamObj;

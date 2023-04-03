@@ -22,4 +22,9 @@ export default class LeaderboardService {
     const leaderboard = await this._leaderboardModel.getAwayLeaderboard();
     return leaderboard;
   }
+
+  public async getLeaderboard(): Promise<ITeamResult[]> {
+    const leaderboard = await this._leaderboardModel.getLeaderboard();
+    return leaderboard;
+  }
 }

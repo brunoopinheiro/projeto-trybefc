@@ -8,6 +8,7 @@ const leaderboardRouter = Router();
 const lService = new LeaderboardService(TeamsModel);
 const lController = new LeaderboardController(lService);
 
+leaderboardRouter.get('/', lController.getLeaderboard);
 leaderboardRouter.get('/home', lController.getHomeLeaderboard);
 leaderboardRouter.get('/away', lController.getAwayLeaderboard);
 

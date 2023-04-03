@@ -28,4 +28,14 @@ export default class LeaderboardController {
       return res.sendStatus(statusCodes.internalServerError);
     }
   };
+
+  public getLeaderboard = async (_req: Request, res: Response) => {
+    try {
+      const leaderboard = await this._leaderboardService.getLeaderboard();
+
+      return res.status(statusCodes.ok).json(leaderboard);
+    } catch (error) {
+      return res.sendStatus(statusCodes.internalServerError);
+    }
+  };
 }
