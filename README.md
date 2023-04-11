@@ -1,13 +1,20 @@
 # :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+# Projeto Trybe FC
+## Módulo de Back End
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+Neste projeto a **Trybe** propôs a criação de um backend dockerizado utilizando modelagem de dados através do Sequelize. A API REST deveria respeitar as regras de negócio providas no projeto e ser capaz de ser consumida pelo Front-End já provido no projeto.
+
+No desenvolvimento desse projeto, optei por utilizar TDD (_Test Driven Development_), garantindo que novas implementações e ajustes de código manteriam a API funcionando como esperado.
+
+
+## Stack utilizada
+
+**Back-end:** Node.js, Express, MySQL, Typescript
+
+**Tests:** Mocha, Sinon, Chai
+
+
+## Variáveis de Ambiente
+
+No caso específico desse projeto, visto que sua função é apenas uma demonstração, as variáveis de ambiente necessárias já foram incluídas no arquivo `docker-compose.yml`
